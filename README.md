@@ -2,11 +2,17 @@
 
 使用 Docker 和 clash 容器进行透明代理
 
+## 3个docker的特点
+- morzlee/clash-premium-transparent-proxy-docker:latest 使用最新premium内核，支持tun模式，使用tproxy处理，支持udp和tcp，但是只支持x86架构
+- morzlee/clash-transparent-proxy-docker:latest 使用最新clash内核，不支持tun模式，使用tproxy处理，支持udp和tcp，支持linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64架构
+- morzlee/clash-transparent-redir-proxy-docker:latest 使用最新clash内核，不支持tun模式，使用redir处理，只支持tcp，支持linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64架构
+
 ## 特点
 
 - [x] IPv4 TCP 透明代理
 - [x] IPv4 UDP 透明代理
 - [x] FULL CONE NAT
+
 
 ## 使用方法
 
@@ -30,13 +36,9 @@
 4. 运行容器
 
     ```bash
-    docker run --name clash -d -v /your/path/config.yaml:/root/.config/clash/config.yaml  --network <macvlan网络名> --ip <容器IP地址> --cap-add=NET_ADMIN clarkecheng/clash-transparent-proxy-docker
+    docker run -m 512m --net=op --ip=10.0.0.30<容器ip> -d -v /root/clash/config.yaml:/root/.config/clash/config.yaml --name clash --restart=always --privileged morzlee/clash-transparent-proxy-docker:latest
     ```
 
-5. 搭配ROS主路由器，进行路由分流，其中国外被墙流量route到clash网关，其他正常在ROS内部进行访问。
+5. 把客户端网关改为<容器ip>
 
-### ROS配置
 
-1. 在IP/Firewall下，找到Address lists，然后创建需要进行无缝翻墙的设备的IP List
-
-to be continued...

@@ -16,7 +16,7 @@ ENV TZ=Asia/Shanghai
 COPY --from=builder /clash-src/bin/clash /usr/local/bin/
 COPY --from=builder /Country.mmdb /root/.config/clash/
 
-COPY entrypoint.sh /usr/local/bin/
+COPY entrypoint2.sh /usr/local/bin/entrypoint.sh
 COPY config.yaml /root/.config/clash/
 
 RUN apk add --no-cache \

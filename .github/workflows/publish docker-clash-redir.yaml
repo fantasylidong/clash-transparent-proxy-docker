@@ -1,4 +1,4 @@
-name: Publish clash-transparent-proxy-docker
+name: Publish clash-transparent-redir-proxy-docker
 on:
   schedule:
     - cron: 0 21 * * *
@@ -16,7 +16,7 @@ on:
       - docker-compose.yml
       - README.md
       - LICENSE
-      - Dockerfile2
+      - Dockerfile
       - Dockerfile3
 jobs:
   build:
@@ -45,7 +45,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile
+          file: Dockerfile2
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/clash-transparent-proxy-docker:latest
+          tags: ${{ secrets.DOCKER_USERNAME }}/clash-transparent-redir-proxy-docker:latest

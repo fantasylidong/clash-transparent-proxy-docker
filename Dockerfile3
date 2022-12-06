@@ -2,13 +2,16 @@
 FROM golang:alpine as builder
 RUN apk add --no-cache make git && \
     wget -O /Country.mmdb https://github.com/Dreamacro/maxmind-geoip/releases/latest/download/Country.mmdb && \
-    git clone https://github.com/Dreamacro/clash.git /clash-src
+    git clone https://github.com/Dreamacro/clash.git /clash-src && \
+	wget -O /clash-src/clash-linux-amd64-latest.gz https://release.dreamacro.workers.dev/latest/clash-linux-amd64-latest.gz
 
 WORKDIR /clash-src
 RUN go mod download
-
-COPY Makefile /clash-src/Makefile
-RUN make current
+RUN gzip -d clash-linux-amd64-latest.gz
+RUN mkdir bin 
+RUN mkdir bin/clash 
+RUN chmod +x clash-linux-amd64-latest
+RUN mv clash-linux-amd64-latest bin/clash/clash
 
 FROM alpine:latest
 ENV TZ=Asia/Shanghai
