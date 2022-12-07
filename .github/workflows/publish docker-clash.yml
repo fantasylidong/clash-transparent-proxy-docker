@@ -1,7 +1,6 @@
-name: Publish clash-transparent-redir-proxy-docker
+name: Publish clash-transparent-proxy-docker
 on:
-  schedule:
-    - cron: 0 21 * * *
+  repository_dispatch:
   workflow_dispatch:
     inputs:
       tags: 
@@ -16,8 +15,9 @@ on:
       - docker-compose.yml
       - README.md
       - LICENSE
-      - Dockerfile
+      - Dockerfile2
       - Dockerfile3
+      - .github/
 jobs:
   build:
     name: build_docker_image
@@ -45,12 +45,7 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          file: Dockerfile2
+          file: Dockerfile
           platforms: linux/386,linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64
           push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/clash-transparent-redir-proxy-docker:latest
-      - 
-        name: 删除工作流
-        uses: GitRML/delete-workflow-runs@main
-        with:
-          retain_days: 3
+          tags: ${{ secrets.DOCKER_USERNAME }}/clash-transparent-proxy-docker:latest
