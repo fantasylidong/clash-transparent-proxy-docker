@@ -1,0 +1,39 @@
+port: 7890
+socks-port: 7891
+redir-port: 7892
+bind-address: '*'
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: :9090
+secret: ""
+external-ui: /ui
+dns:
+  enable: true
+  listen: 0.0.0.0:53
+  enhanced-mode: fake-ip
+  fake-ip-filter:
+    - '*.lan'
+#见下方链接
+  nameserver:
+    - '114.114.114.114'
+    - '119.29.29.29'
+  fallback:
+   - https://1.1.1.1/dns-query
+   - https://dns.google/dns-query
+tun:
+  enable: true
+  stack: system # or gvisor
+  dns-hijack:
+    - any:53
+    - tcp://any:53
+  auto-redir: true
+  auto-route: true
+  auto-detect-interface: true
+proxies:
+
+proxy-providers:
+
+proxy-groups:
+
+rules:
